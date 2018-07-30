@@ -1,7 +1,7 @@
 from __future__ import print_function
 import os
 import os.path as osp
-import cPickle as pickle
+import pickle
 from scipy import io
 import datetime
 import time
@@ -21,6 +21,7 @@ def load_pickle(path):
   """Check and load pickle object.
   According to this post: https://stackoverflow.com/a/41733927, cPickle and 
   disabling garbage collector helps with loading speed."""
+  print(path)
   assert osp.exists(path)
   # gc.disable()
   with open(path, 'rb') as f:
@@ -288,9 +289,11 @@ def load_state_dict(model, src_state_dict):
       param = param.data
     try:
       dest_state_dict[name].copy_(param)
-    except Exception, msg:
+    except Exception:
+      print("Warning: Error occurs when copying '{}'".format(name))
+    '''except Exception, msg:
       print("Warning: Error occurs when copying '{}': {}"
-            .format(name, str(msg)))
+            .format(name, str(msg)))'''
 
   src_missing = set(dest_state_dict.keys()) - set(src_state_dict.keys())
   if len(src_missing) > 0:

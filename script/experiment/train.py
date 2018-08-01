@@ -377,7 +377,7 @@ def main():
         map_location = (lambda storage, loc: storage)
         sd = torch.load(cfg.model_weight_file, map_location=map_location)
         if 'state_dicts' in sd:
-          sd = sd['state_dicts']
+          sd = sd['state_dicts'][0]
         load_state_dict(model, sd)
         print('Loaded model weights from {}'.format(cfg.model_weight_file))
       else:

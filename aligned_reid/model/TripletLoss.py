@@ -8,7 +8,7 @@ class TripletLoss(object):
   Loss for Person Re-Identification'."""
   def __init__(self, margin=None, margin_in=None):
     self.margin = margin
-    self.margin_in = margin_in
+    self.margin_in = 1
     if margin is not None:
       self.ranking_loss = nn.MarginRankingLoss(margin=margin)
       self.ranking_loss_in = nn.MarginRankingLoss(margin=0)

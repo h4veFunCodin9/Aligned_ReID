@@ -283,7 +283,6 @@ def load_state_dict(model, src_state_dict):
   dest_state_dict = model.state_dict()
   for name, param in src_state_dict.items():
     if name not in dest_state_dict:
-      print('({})'.format(name))
       continue
     if isinstance(param, Parameter):
       # backwards compatibility for serialized parameters

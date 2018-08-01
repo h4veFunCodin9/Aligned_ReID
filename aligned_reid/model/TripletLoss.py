@@ -29,9 +29,7 @@ class TripletLoss(object):
     in_margins = Variable(dist_ap.data.new().resize_as_(dist_ap.data).fill_(self.margin_in))
     if self.margin is not None:
       loss = self.ranking_loss(dist_an, dist_ap, y)
-      print(loss)
       loss += self.ranking_loss_in(in_margins, dist_ap, y)
-      print(loss)
     else:
       loss = self.ranking_loss(dist_an - dist_ap, y)
     return loss

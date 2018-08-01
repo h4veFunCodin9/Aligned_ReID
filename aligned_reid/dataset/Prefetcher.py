@@ -84,7 +84,7 @@ class Enqueuer(object):
     self.reset_event.clear()
     self.ptr.reset()
     self.queue = queue.Queue(maxsize=self.queue_size)
-
+  
   def set_num_elements(self, num_elements):
     """Reset the max number of elements."""
     self.reset()

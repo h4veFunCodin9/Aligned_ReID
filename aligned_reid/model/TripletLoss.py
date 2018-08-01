@@ -6,8 +6,9 @@ class TripletLoss(object):
   """Modified from Tong Xiao's open-reid (https://github.com/Cysu/open-reid). 
   Related Triplet Loss theory can be found in paper 'In Defense of the Triplet 
   Loss for Person Re-Identification'."""
-  def __init__(self, margin=None):
+  def __init__(self, margin=None, margin_in=None):
     self.margin = margin
+    self.margin_in = margin_in
     if margin is not None:
       self.ranking_loss = nn.MarginRankingLoss(margin=margin)
     else:
@@ -24,8 +25,10 @@ class TripletLoss(object):
       loss: pytorch Variable, with shape [1]
     """
     y = Variable(dist_an.data.new().resize_as_(dist_an.data).fill_(1))
+    print(dist_ap.size())
     if self.margin is not None:
       loss = self.ranking_loss(dist_an, dist_ap, y)
     else:
       loss = self.ranking_loss(dist_an - dist_ap, y)
     return loss
+

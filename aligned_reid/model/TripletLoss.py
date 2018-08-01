@@ -11,6 +11,7 @@ class TripletLoss(object):
     self.margin_in = margin_in
     if margin is not None:
       self.ranking_loss = nn.MarginRankingLoss(margin=margin)
+      self.ranking_loss_in = nn.MarginRankingLoss(margin=0)
     else:
       self.ranking_loss = nn.SoftMarginLoss()
 
@@ -25,9 +26,12 @@ class TripletLoss(object):
       loss: pytorch Variable, with shape [1]
     """
     y = Variable(dist_an.data.new().resize_as_(dist_an.data).fill_(1))
-    print(dist_ap.size())
+    in_margins = Variable(dist_ap.data.new().resize_as_(dist_ap.data).fill_(self.margin_in))
     if self.margin is not None:
       loss = self.ranking_loss(dist_an, dist_ap, y)
+      print(loss)
+      loss += self.ranking_loss_in(in_margins, dist_ap, y)
+      print(loss)
     else:
       loss = self.ranking_loss(dist_an - dist_ap, y)
     return loss

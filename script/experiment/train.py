@@ -128,7 +128,7 @@ class Config(object):
     self.train_mirror_type = ['random', 'always', None][0]
     self.train_shuffle = True
 
-    self.test_batch_size = 32
+    self.test_batch_size = 4
     self.test_final_batch = True
     self.test_mirror_type = ['random', 'always', None][2]
     self.test_shuffle = False

@@ -33,7 +33,7 @@ class TrainSet(Dataset):
     self.ids_to_im_inds = defaultdict(list)
     for ind, id in enumerate(im_ids):
       self.ids_to_im_inds[id].append(ind)
-    self.ids = self.ids_to_im_inds.keys()
+    self.ids = list(self.ids_to_im_inds.keys())
 
     super(TrainSet, self).__init__(
       dataset_size=len(self.ids),

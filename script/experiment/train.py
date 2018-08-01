@@ -62,7 +62,9 @@ class Config(object):
     parser.add_argument('--local_dist_own_hard_sample',
                         type=str2bool, default=False)
     parser.add_argument('-gm', '--global_margin', type=float, default=0.3)
+    parser.add_argument('-igm', '--intra_global_margin', type=float, default=0.1)
     parser.add_argument('-lm', '--local_margin', type=float, default=0.3)
+    parser.add_argument('-ilm', '--intra_local_margin', type=float, default=0.1)
     parser.add_argument('-glw', '--g_loss_weight', type=float, default=1.)
     parser.add_argument('-llw', '--l_loss_weight', type=float, default=0.)
     parser.add_argument('-idlw', '--id_loss_weight', type=float, default=0.)
@@ -179,7 +181,9 @@ class Config(object):
 
     self.local_conv_out_channels = 128
     self.global_margin = args.global_margin
+    self.intra_global_margin = args.intra_global_margin
     self.local_margin = args.local_margin
+    self.intra_local_margin = args.intra_local_margin
 
     # Identification Loss weight
     self.id_loss_weight = args.id_loss_weight
@@ -232,7 +236,9 @@ class Config(object):
         ('nf_' if self.normalize_feature else 'not_nf_') +
         ('ohs_' if self.local_dist_own_hard_sample else 'not_ohs_') +
         'gm_{}_'.format(tfs(self.global_margin)) +
+        'igm_{}_'.format(tfs(self.intra_global_margin)) +
         'lm_{}_'.format(tfs(self.local_margin)) +
+        'ilm_{}_'.format(tfs(self.intra_local_margin)) +
         'glw_{}_'.format(tfs(self.g_loss_weight)) +
         'llw_{}_'.format(tfs(self.l_loss_weight)) +
         'idlw_{}_'.format(tfs(self.id_loss_weight)) +
@@ -340,8 +346,8 @@ def main():
   #############################
 
   id_criterion = nn.CrossEntropyLoss()
-  g_tri_loss = TripletLoss(margin=cfg.global_margin)
-  l_tri_loss = TripletLoss(margin=cfg.local_margin)
+  g_tri_loss = TripletLoss(margin=cfg.global_margin, margin_in=cfg.intra_global_margin)
+  l_tri_loss = TripletLoss(margin=cfg.local_margin, margin_in=cfg.intra_local_margin)
 
   optimizer = optim.Adam(model.parameters(),
                          lr=cfg.base_lr,

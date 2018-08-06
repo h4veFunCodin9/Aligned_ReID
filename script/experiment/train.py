@@ -130,7 +130,7 @@ class Config(object):
     self.train_mirror_type = ['random', 'always', None][0]
     self.train_shuffle = True
 
-    self.test_batch_size = 32
+    self.test_batch_size = 4
     self.test_final_batch = True
     self.test_mirror_type = ['random', 'always', None][2]
     self.test_shuffle = False
@@ -297,9 +297,9 @@ def main():
   cfg = Config()
 
   # Redirect logs to both console and file.
-  if cfg.log_to_file:
-    ReDirectSTD(cfg.stdout_file, 'stdout', False)
-    ReDirectSTD(cfg.stderr_file, 'stderr', False)
+  #if cfg.log_to_file:
+  #  ReDirectSTD(cfg.stdout_file, 'stdout', False)
+  #  ReDirectSTD(cfg.stderr_file, 'stderr', False)
 
   # Lazily create SummaryWriter
   writer = None
@@ -311,8 +311,8 @@ def main():
 
   # Dump the configurations to log.
   import pprint
-  print('-' * 60)
-  print('cfg.__dict__')
+  print('-' * 60, file=sys.stderr)
+  print('cfg.__dict__', file=sys.stderr)
   pprint.pprint(cfg.__dict__)
   print('-' * 60)
 
@@ -325,7 +325,7 @@ def main():
   test_sets = []
   test_set_names = []
   if cfg.dataset == 'combined':
-    for name in ['market1501', 'cuhk03', 'duke']:
+    for name in ['market1501', 'duke']: #, 'cuhk03', 'duke']:
       cfg.test_set_kwargs['name'] = name
       test_sets.append(create_dataset(**cfg.test_set_kwargs))
       test_set_names.append(name)

@@ -23,6 +23,7 @@ def create_dataset(
   # Specify Directory and Partition File #
   ########################################
 
+  print(name)
   if name == 'market1501':
     im_dir = ospeu('./Dataset/market1501/images')
     partition_file = ospeu('./Dataset/market1501/partitions.pkl')
@@ -39,8 +40,8 @@ def create_dataset(
   elif name == 'combined':
     assert part in ['trainval'], \
       "Only trainval part of the combined dataset is available now."
-    im_dir = ospeu('~/Dataset/market1501_cuhk03_duke/trainval_images')
-    partition_file = ospeu('~/Dataset/market1501_cuhk03_duke/partitions.pkl')
+    im_dir = ospeu('./Dataset/market1501_cuhk03_duke/trainval_images')
+    partition_file = ospeu('./Dataset/market1501_cuhk03_duke/partitions.pkl')
 
   ##################
   # Create Dataset #
@@ -51,6 +52,7 @@ def create_dataset(
                     single_gallery_shot=False,
                     first_match_break=True)
 
+  print(partition_file)
   partitions = load_pickle(partition_file)
   im_names = partitions['{}_im_names'.format(part)]
 

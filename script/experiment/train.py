@@ -296,9 +296,9 @@ def main():
   cfg = Config()
 
   # Redirect logs to both console and file.
-  if cfg.log_to_file:
-    ReDirectSTD(cfg.stdout_file, 'stdout', False)
-    ReDirectSTD(cfg.stderr_file, 'stderr', False)
+  #if cfg.log_to_file:
+  #  ReDirectSTD(cfg.stdout_file, 'stdout', False)
+  #  ReDirectSTD(cfg.stderr_file, 'stderr', False)
 
   # Lazily create SummaryWriter
   writer = None
@@ -310,8 +310,8 @@ def main():
 
   # Dump the configurations to log.
   import pprint
-  print('-' * 60)
-  print('cfg.__dict__')
+  print('-' * 60, file=sys.stderr)
+  print('cfg.__dict__', file=sys.stderr)
   pprint.pprint(cfg.__dict__)
   print('-' * 60)
 
@@ -324,7 +324,7 @@ def main():
   test_sets = []
   test_set_names = []
   if cfg.dataset == 'combined':
-    for name in ['market1501', 'cuhk03', 'duke']:
+    for name in ['market1501', 'duke']: #, 'cuhk03', 'duke']:
       cfg.test_set_kwargs['name'] = name
       test_sets.append(create_dataset(**cfg.test_set_kwargs))
       test_set_names.append(name)

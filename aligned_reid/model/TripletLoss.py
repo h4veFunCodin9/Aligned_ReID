@@ -27,10 +27,11 @@ class TripletLoss(object):
       loss: pytorch Variable, with shape [1]
     """
     y = Variable(dist_an.data.new().resize_as_(dist_an.data).fill_(1))
+    in_y = Variable(dist_ap.data.new().resize_as_(dist_ap.data).fill_(1))
     in_margins = Variable(dist_ap.data.new().resize_as_(dist_ap.data).fill_(self.margin_in))
     if self.margin is not None:
       loss = self.ranking_loss(dist_an, dist_ap, y)
-      loss += self.beta * self.ranking_loss_in(in_margins, dist_ap, y)
+      loss += self.beta * self.ranking_loss_in(in_margins, dist_ap, in_y)
     else:
       loss = self.ranking_loss(dist_an - dist_ap, y)
     return loss

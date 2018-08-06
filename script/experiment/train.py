@@ -42,7 +42,7 @@ class Config(object):
   def __init__(self):
 
     parser = argparse.ArgumentParser()
-    parser.add_argument('-d', '--sys_device_ids', type=eval, default=(0,))
+    parser.add_argument('-d', '--sys_device_ids', type=eval, default=())
     parser.add_argument('-r', '--run', type=int, default=1)
     parser.add_argument('--set_seed', type=str2bool, default=False)
     parser.add_argument('--dataset', type=str, default='market1501',
@@ -278,6 +278,7 @@ class ExtractFeature(object):
     self.TVT = TVT
 
   def __call__(self, ims):
+    print(ims.shape)
     old_train_eval_model = self.model.training
     # Set eval mode.
     # Force all BN layers to use global mean and variance, also disable

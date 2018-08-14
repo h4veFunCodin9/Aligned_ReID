@@ -44,6 +44,7 @@ def create_dataset(
     im_dir = ospj(data_dir, 'market1501_cuhk03_duke/trainval_images')
     partition_file = ospj(data_dir, 'market1501_cuhk03_duke/partitions.pkl')
 
+
   ##################
   # Create Dataset #
   ##################

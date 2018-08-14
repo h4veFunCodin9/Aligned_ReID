@@ -16,6 +16,8 @@ from ..utils.distance import compute_dist
 from ..utils.distance import local_dist
 from ..utils.distance import low_memory_matrix_op
 
+import torch
+
 
 class TestSet(Dataset):
   """
@@ -53,7 +55,7 @@ class TestSet(Dataset):
   def set_feat_func(self, extract_feat_func):
     self.extract_feat_func = extract_feat_func
 
-  def get_sample(self, ptr):
+  def get_sample(self, ptr):   # retrieve image_array, id, cam, mark from samples
     im_name = self.im_names[ptr]
     im_path = osp.join(self.im_dir, im_name)
     im = np.asarray(Image.open(im_path))
@@ -99,7 +101,11 @@ class TestSet(Dataset):
     last_time = time.time()
     while not done:
       ims_, ids_, cams_, im_names_, marks_, done = self.next_batch()
+      #print(np.sum(ims_[0]))
+      #print(im_names_[0])
       global_feat, local_feat = self.extract_feat_func(ims_)
+      #print(global_feat[0])
+      #print(global_feat.shape)
       global_feats.append(global_feat)
       local_feats.append(local_feat)
       ids.append(ids_)
